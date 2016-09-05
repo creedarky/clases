@@ -1,20 +1,23 @@
-angular.module('app.views.main')
-  .controller('MainController', MainController);
+(function () {
+  'use strict';
+  angular.module('app.views.main')
+    .controller('MainController', MainController);
 
-function MainController(categoryService, bookmarkFactory) {
-  this.categories = categoryService.getCategories();
+  function MainController(categoryService, bookmarkFactory) {
+    this.categories = categoryService.getCategories();
 
-  this.bookmarks = bookmarkFactory.getBookmarks();
+    this.bookmarks = bookmarkFactory.getBookmarks();
 
-  this.isCurrentCategory = isCurrentCategory;
-  this.setCurrentCategory = setCurrentCategory;
-  this.currentCategory = null;
+    this.isCurrentCategory = isCurrentCategory;
+    this.setCurrentCategory = setCurrentCategory;
+    this.currentCategory = null;
 
-  function isCurrentCategory(category) {
-    return this.currentCategory !== null && category.name === this.currentCategory.name;
+    function isCurrentCategory(category) {
+      return this.currentCategory !== null && category.name === this.currentCategory.name;
+    }
+
+    function setCurrentCategory(category) {
+      this.currentCategory = category;
+    }
   }
-
-  function setCurrentCategory(category) {
-    this.currentCategory = category;
-  }
-}
+})();
