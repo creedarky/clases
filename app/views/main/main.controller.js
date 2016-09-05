@@ -3,7 +3,7 @@
   angular.module('app.views.main')
     .controller('MainController', MainController);
 
-  function MainController(categoryService, bookmarkFactory) {
+  function MainController(categoryService, bookmarkFactory, $timeout) {
     var vm = this;
     vm.categories = categoryService.getCategories();
 
@@ -19,6 +19,9 @@
 
     function setCurrentCategory(category) {
       vm.currentCategory = category;
+      $timeout(function() {
+        console.log(this, vm, this === vm);
+      }, 0)
     }
   }
 })();
