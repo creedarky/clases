@@ -6,7 +6,8 @@ angular.module('app', [
       .state('root', {
         url: '',
         templateUrl: 'app/template.html',
-        controller: 'MainCtrl'
+        controller: 'MainCtrl',
+        controllerAs: 'main'
       })
       .state('about', {
         url: '/about',
@@ -20,6 +21,7 @@ angular.module('app', [
         url: '/bookmark/:id',
         templateUrl: 'app/bookmark.html',
         controller: 'BookmarkController',
+        controllerAs: 'bookmark',
         resolve: {
           bookmark: function($stateParams, bookmarkFactory) {
             console.log('resolve')
@@ -32,11 +34,11 @@ angular.module('app', [
     $urlRouterProvider.otherwise('/404');
   })
   .controller('MainCtrl', function ($scope, bookmarkFactory, categoryService) {
-    $scope.categories = categoryService.getCategories();
+    this.categories = categoryService.getCategories();
 
-    $scope.bookmarks = bookmarkFactory.getBookmarks();
+    this.bookmarks = bookmarkFactory.getBookmarks();
 
-    $scope.currentCategory = null;
+    this.currentCategory = null;
 
     function isCurrentCategory(category) {
       return $scope.currentCategory !== null && category.name === $scope.currentCategory.name;
@@ -45,25 +47,17 @@ angular.module('app', [
     function setCurrentCategory(category) {
       $scope.currentCategory = category;
     }
-    $scope.isCurrentCategory = isCurrentCategory;
-    $scope.setCurrentCategory = setCurrentCategory;
-    $scope.object = {
-      show: true
-    };
-    $scope.show = true;
-    $scope.toggleShow = function() {
-      $scope.show = !$scope.show;
-      $scope.object.show = !$scope.object.show;
-    }
+    this.isCurrentCategory = isCurrentCategory;
+    this.setCurrentCategory = setCurrentCategory;
   })
   .controller('BookmarkController', function ($scope, bookmark, $state) {
-    $scope.bookmark = bookmark;
-    $scope.cancelEditing = function() {
+    this.bookmark = bookmark;
+    this.cancelEditing = function() {
       $state.go('root');
     }
   })
   .controller('FakeController', function ($scope) {
-    $scope.bookmarks = [1, 2, 3, 4, 5, 6, 7];
+    this.bookmarks = [1, 2, 3, 4, 5, 6, 7];
   })
   .factory('bookmarkFactory', function() {
     var bookmarks = [

@@ -1,20 +1,20 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-sm-3 col-md-2 sidebar">
-      <a ng-click="setCurrentCategory(null)"><img class="logo" src="assets/img/eggly-logo.png"></a>
+      <a ng-click="main.setCurrentCategory(null)"><img class="logo" src="assets/img/eggly-logo.png"></a>
       <ul class="nav nav-sidebar">
-        <li ng-repeat="category in categories" ng-class="{'active':isCurrentCategory(category)}">
-          <a ng-click="setCurrentCategory(category)">
+        <li ng-repeat="category in main.categories" ng-class="{'active': main.isCurrentCategory(category)}">
+          <a ng-click="main.setCurrentCategory(category)">
             {{category.name}}
           </a>
         </li>
       </ul>
     </div>
-    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" ng-controller="FakeController">
-      <div ng-repeat="bookmark in bookmarks">
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" ng-controller="FakeController as fake">
+      <div ng-repeat="bookmark in fake.bookmarks">
         {{ bookmark }}
       </div>
-      <div ng-repeat="bookmark in bookmarks | filter:{category:currentCategory.name}">
+      <div ng-repeat="bookmark in main.bookmarks | filter:{category:currentCategory.name}">
         <button type="button" class="close">&times;</button>
         <a ui-sref="bookmark({id: bookmark.id})" class="btn btn-link"><span class="glyphicon glyphicon-pencil"></span>
         </a>
