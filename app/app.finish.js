@@ -8,9 +8,28 @@ angular.module('app', [
         templateUrl: 'app/template.html',
         controller: 'MainCtrl'
       })
-
+      .state('about', {
+        url: '/about',
+        template: '<h1> About page </h1>'
+      })
+      .state('404', {
+        url: '/404',
+        template: '<h1>Not found page </h1>'
+      })
+      .state('bookmark', {
+        url: '/bookmark/:id',
+        templateUrl: 'app/bookmark.html',
+        controller: 'BookmarkController',
+        resolve: {
+          bookmark: function($stateParams, bookmarkFactory) {
+            console.log('resolve')
+            console.log(bookmarkFactory.findBookmark(+$stateParams.id));
+            return bookmarkFactory.findBookmark(+$stateParams.id);
+          }
+        }
+      })
     ;
-    $urlRouterProvider.otherwise('/');
+    $urlRouterProvider.otherwise('/404');
   })
   .controller('MainCtrl', function ($scope, bookmarkFactory, categoryService) {
     $scope.categories = categoryService.getCategories();
@@ -26,10 +45,14 @@ angular.module('app', [
     function setCurrentCategory(category) {
       $scope.currentCategory = category;
     }
-
     $scope.isCurrentCategory = isCurrentCategory;
     $scope.setCurrentCategory = setCurrentCategory;
-    // $scope.format = 'M/d/yy h:mm:ss a';
+  })
+  .controller('BookmarkController', function ($scope, bookmark, $state) {
+    $scope.bookmark = bookmark;
+    $scope.cancelEditing = function() {
+      $state.go('root');
+    }
   })
   .factory('bookmarkFactory', function() {
     var bookmarks = [
@@ -46,8 +69,16 @@ angular.module('app', [
     function getBookmarks() {
       return bookmarks;
     }
+
+    function findBookmark(id) {
+      return _.find(bookmarks, function(b) {
+        return b.id === id;
+      })
+    }
+
     return {
-      getBookmarks: getBookmarks
+      getBookmarks: getBookmarks,
+      findBookmark: findBookmark
     }
   })
   .service('categoryService', function() {
