@@ -1,6 +1,17 @@
 angular.module('app', [
-
+  'ui.router'
 ])
+  .config(function ($stateProvider, $urlRouterProvider) {
+    $stateProvider
+      .state('root', {
+        url: '/',
+        templateUrl: 'app/template.html',
+        controller: 'MainCtrl'
+      })
+
+    ;
+    $urlRouterProvider.otherwise('/');
+  })
   .controller('MainCtrl', function ($scope) {
     $scope.categories = [
       {"id": 0, "name": "Development"},
@@ -33,7 +44,7 @@ angular.module('app', [
 
     $scope.isCurrentCategory = isCurrentCategory;
     $scope.setCurrentCategory = setCurrentCategory;
-    $scope.format = 'M/d/yy h:mm:ss a';
+    // $scope.format = 'M/d/yy h:mm:ss a';
   })
   .directive('myCurrentTime', function($interval, dateFilter) {
 
