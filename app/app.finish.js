@@ -4,7 +4,7 @@ angular.module('app', [
   .config(function ($stateProvider, $urlRouterProvider) {
     $stateProvider
       .state('root', {
-        url: '/',
+        url: '',
         templateUrl: 'app/template.html',
         controller: 'MainCtrl'
       })
@@ -47,12 +47,23 @@ angular.module('app', [
     }
     $scope.isCurrentCategory = isCurrentCategory;
     $scope.setCurrentCategory = setCurrentCategory;
+    $scope.object = {
+      show: true
+    };
+    $scope.show = true;
+    $scope.toggleShow = function() {
+      $scope.show = !$scope.show;
+      $scope.object.show = !$scope.object.show;
+    }
   })
   .controller('BookmarkController', function ($scope, bookmark, $state) {
     $scope.bookmark = bookmark;
     $scope.cancelEditing = function() {
       $state.go('root');
     }
+  })
+  .controller('FakeController', function ($scope) {
+    $scope.bookmarks = [1, 2, 3, 4, 5, 6, 7];
   })
   .factory('bookmarkFactory', function() {
     var bookmarks = [

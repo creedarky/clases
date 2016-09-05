@@ -10,13 +10,17 @@
         </li>
       </ul>
     </div>
-    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" ng-controller="FakeController">
+      <div ng-repeat="bookmark in bookmarks">
+        {{ bookmark }}
+      </div>
       <div ng-repeat="bookmark in bookmarks | filter:{category:currentCategory.name}">
         <button type="button" class="close">&times;</button>
         <a ui-sref="bookmark({id: bookmark.id})" class="btn btn-link"><span class="glyphicon glyphicon-pencil"></span>
-        </button>
+        </a>
         <a href="{{bookmark.url}}" target="_blank">{{bookmark.title}}</a>
       </div>
+
       <!--<div>-->
       <!--Date format: <input ng-model="format"> <hr/>-->
       <!--Current time is: <span my-current-time="format"></span>-->
