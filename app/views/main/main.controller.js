@@ -3,15 +3,23 @@
   angular.module('app.views.main')
     .controller('MainController', MainController);
 
+  MainController.$inject = ['categoryService', 'bookmarkFactory', '$timeout']
+
   function MainController(categoryService, bookmarkFactory, $timeout) {
     var vm = this;
-    vm.categories = categoryService.getCategories();
 
-    vm.bookmarks = bookmarkFactory.getBookmarks();
+    vm.currentCategory = null;
 
     vm.isCurrentCategory = isCurrentCategory;
     vm.setCurrentCategory = setCurrentCategory;
-    vm.currentCategory = null;
+
+    activate();
+
+    function activate() {
+      vm.categories = categoryService.getCategories();
+      vm.bookmarks = bookmarkFactory.getBookmarks();
+
+    }
 
     function isCurrentCategory(category) {
       return vm.currentCategory !== null && category.name === vm.currentCategory.name;
