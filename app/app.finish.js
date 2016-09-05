@@ -33,5 +33,64 @@ angular.module('app', [
 
     $scope.isCurrentCategory = isCurrentCategory;
     $scope.setCurrentCategory = setCurrentCategory;
+    $scope.format = 'M/d/yy h:mm:ss a';
+  })
+  .directive('myCurrentTime', function($interval, dateFilter) {
+
+    return {
+      restrict: 'AE', // tipo que acepta (A = Atributo, E = Elemento, C = clase)
+      link: function(scope, element, attrs) {
+        var format,
+          timeoutId;
+
+        function updateTime() {
+          element.text(dateFilter(new Date(), format));
+        }
+
+        scope.$watch(attrs.myCurrentTime, function(value) {
+          format = value;
+          updateTime();
+        });
+
+        element.on('$destroy', function() {
+          $interval.cancel(timeoutId);
+        });
+
+        // start the UI update process; save the timeoutId for canceling
+        timeoutId = $interval(function() {
+          updateTime(); // update DOM
+        }, 1000);
+      }
+    };
+  })
+  .directive('testDirective', function() {
+    return {
+      restrict: 'AE', // tipo que acepta (A = Atributo, E = Elemento, C = clase)
+      replace: true, // Si elimina el custom tag y coloca solo el template
+      template: '<p >Hello World, Active color {{ color }}</p>', // Template de la directiva
+      scope: {
+        colorOn: '@',
+        colorOff: '@'
+      },
+      link: function(scope, elem) {
+        scope.isOn = true;
+        scope.color = scope.colorOn;
+        elem.css('background-color', scope.color);
+        elem.bind('click', function() {
+          scope.$apply(function() {
+            scope.isOn = !scope.isOn;
+            var color = scope.isOn ? scope.colorOn : scope.colorOff;
+            scope.color = color;
+            elem.css('background-color', color);
+          });
+        });
+        elem.bind('mouseover', function() {
+          elem.css('cursor', 'pointer');
+        });
+        elem.on('$destroy', function() {
+          elem.unbind();
+        });
+      }
+    }
   })
 ;
