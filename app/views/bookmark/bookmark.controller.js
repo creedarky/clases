@@ -4,8 +4,10 @@
     .controller('BookmarkController', BookmarkController);
 
   function BookmarkController(bookmark) {
-    this.bookmark = bookmark;
-    this.cancelEditing = function () {
+    var vm = this;
+
+    vm.bookmark = bookmark;
+    vm.cancelEditing = function () {
       $state.go('root');
     }
   }

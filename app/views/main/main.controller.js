@@ -4,20 +4,21 @@
     .controller('MainController', MainController);
 
   function MainController(categoryService, bookmarkFactory) {
-    this.categories = categoryService.getCategories();
+    var vm = this;
+    vm.categories = categoryService.getCategories();
 
-    this.bookmarks = bookmarkFactory.getBookmarks();
+    vm.bookmarks = bookmarkFactory.getBookmarks();
 
-    this.isCurrentCategory = isCurrentCategory;
-    this.setCurrentCategory = setCurrentCategory;
-    this.currentCategory = null;
+    vm.isCurrentCategory = isCurrentCategory;
+    vm.setCurrentCategory = setCurrentCategory;
+    vm.currentCategory = null;
 
     function isCurrentCategory(category) {
-      return this.currentCategory !== null && category.name === this.currentCategory.name;
+      return vm.currentCategory !== null && category.name === vm.currentCategory.name;
     }
 
     function setCurrentCategory(category) {
-      this.currentCategory = category;
+      vm.currentCategory = category;
     }
   }
 })();
