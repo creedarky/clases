@@ -1,22 +1,15 @@
-(function () {
-  'use strict';
-  angular.module('app.services')
-    .service('categoryService', categoryService);
-
-  function categoryService() {
-    var categories = [
+export default class CategoryService {
+  constructor() {
+    this._categories = [
       {"id": 0, "name": "Development"},
       {"id": 1, "name": "Design"},
       {"id": 2, "name": "Exercise"},
       {"id": 3, "name": "Humor"}
     ];
-
-    this.getCategories = getCategories;
-
-    function getCategories() {
-      return categories;
-    }
-
-
   }
-})();
+
+  getCategories() {
+    return this._categories;
+  }
+}
+

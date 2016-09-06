@@ -1,11 +1,8 @@
-(function () {
-  'use strict';
-  angular.module('app.factories')
-    .factory('bookmarkFactory', bookmarkFactory);
+import _ from 'lodash';
 
-
-  function bookmarkFactory() {
-    var bookmarks = [
+export default class BookmarkService {
+  constructor() {
+    this._bookmarks = [
       {"id": 0, "title": "AngularJS", "url": "http://angularjs.org", "category": "Development"},
       {"id": 1, "title": "Egghead.io", "url": "http://egghead.io", "category": "Development"},
       {"id": 2, "title": "A List Apart", "url": "http://alistapart.com/", "category": "Design"},
@@ -16,20 +13,13 @@
       {"id": 7, "title": "Wimp", "url": "http://wimp.com", "category": "Humor"},
       {"id": 8, "title": "Dump", "url": "http://dump.com", "category": "Humor"}
     ];
-
-    return {
-      getBookmarks: getBookmarks,
-      findBookmark: findBookmark
-    };
-
-    function getBookmarks() {
-      return bookmarks;
-    }
-
-    function findBookmark(id) {
-      return _.find(bookmarks, function (b) {
-        return b.id === id;
-      })
-    }
   }
-})();
+
+  getBookmarks() {
+    return this._bookmarks;
+  }
+
+  findBookmark(id) {
+    return _.find(this._bookmarks, (b) => b.id === id);
+  }
+}
